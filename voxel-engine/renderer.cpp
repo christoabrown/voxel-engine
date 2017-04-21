@@ -11,6 +11,7 @@
 #include "block.h"
 #include "vbo_arena.h"
 #include "chunk_vao_manager.h"
+#include "textRenderer.h"
 
 #include <chrono>
 #include <stdio.h>
@@ -25,6 +26,10 @@ GLuint shaderProgram, skyProgram, skyVAO;
 std::chrono::duration<float> deltaTime;
 auto lastFrame = Clock::now();
 ChunkVaoManager chunkVaoManager;
+GLuint textures[3];
+unsigned long long int frameCount = 0;
+double fpsInc = 0;
+double frameRate = 0;
 
 bool CreateGLContext(WinInfo *winInfo) 
 {
@@ -127,7 +132,7 @@ GLuint loadTexture(std::string file)
 void setData()
 {
 	glGenVertexArrays(1, &skyVAO);
-	GLuint textures[3];
+	
 	textures[0] = loadTexture("dirt.png");
 	textures[1] = loadTexture("grass.png");
 	textures[2] = loadTexture("stone.png");
@@ -176,6 +181,8 @@ void drawScene(WinInfo *winInfo)
 		removeChunkMeshes();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
+	glDisable(GL_BLEND);
 	/// Sky shader stuff
 	glUseProgram(skyProgram);
 	glUniform3fv(1, 1, glm::value_ptr(getForward()));
@@ -198,9 +205,22 @@ void drawScene(WinInfo *winInfo)
 	glUniformMatrix4fv(VIEW_LOC, 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(PROJECTION_LOC, 1, GL_FALSE, glm::value_ptr(projection));
 
-	//glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textures[1]);
 	chunkVaoManager.drawChunks();
-	SwapBuffers(winInfo->hdc);
+	
+}
+
+void renderFPS(TextRenderer &textRender, int x, int y)
+{
+	const double F_INTERVAL = 60.0;
+	fpsInc += (1 / DeltaTime()) * (1 / F_INTERVAL);
+	if (frameCount % (int)F_INTERVAL == 0)
+	{
+		frameRate = fpsInc;
+		fpsInc = 0;
+	}
+	textRender.renderText("C:/Windows/Fonts/LiberationMono-Regular.ttf",std::to_string((int)frameRate) + " fps", x, y, 0.35, glm::vec3(1, 1, 1));
 }
 
 void APIENTRY openglCallbackFunction(GLenum source,
@@ -237,6 +257,9 @@ void setupGL(WinInfo *winInfo)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_MULTISAMPLE);
+	
+	glDepthFunc(GL_LEQUAL);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//glEnable(GL_DEBUG_OUTPUT);
 	//glDebugMessageCallback(openglCallbackFunction, nullptr);
 
@@ -251,15 +274,25 @@ void setupGL(WinInfo *winInfo)
 	std::shared_ptr<WorldMesher> worldMesher = std::make_shared<WorldMesher>(winInfo, world);
 	world->worldGen = worldGen;
 	world->worldMesher = worldMesher;
-	///
-
+	///]
+	GLuint textShader = Shader("msdf_default.vert", "msdf_default.frag");
+	TextRenderer textRender = TextRenderer(textShader);
+	
 	chunkVaoManager.initVaoPool();
 	while (!winInfo->shuttingDown)
 	{
 		HandleInput(winInfo);
-		if (winInfo->resized) { glViewport(0, 0, winInfo->screenWidth, winInfo->screenHeight); winInfo->resized = false; }
-		
+		if (winInfo->resized) 
+		{ 
+			glViewport(0, 0, winInfo->screenWidth, winInfo->screenHeight); winInfo->resized = false; 
+			glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(winInfo->screenWidth), 0.0f, static_cast<GLfloat>(winInfo->screenHeight));
+			glUseProgram(textShader);
+			glUniformMatrix4fv(glGetUniformLocation(textShader, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+		}
 		drawScene(winInfo);
+		renderFPS(textRender, 2, winInfo->screenHeight - 20);
+		SwapBuffers(winInfo->hdc);
+		frameCount++;
 	}
 	closeGL();
 }

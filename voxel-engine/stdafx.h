@@ -27,12 +27,12 @@
 #include <functional>
 #include <queue>
 #include <atomic>
+#include <iostream>
 
 #include <GL/glew.h>
 #include <GL/wglew.h>
 #pragma comment(lib, "glew32.lib")
-#include <ft2build.h>
-#pragma comment(lib, "freetype.lib")
+//#include <ft2build.h>
 
 #include "lib\glm\glm.hpp"
 #include "lib\glm\gtc\matrix_transform.hpp"

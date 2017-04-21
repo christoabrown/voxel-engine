@@ -47,5 +47,6 @@ struct Plane {
 	GLfloat a, b, c, d;
 };
 
+std::string getFileName(std::string dir);
+
 enum Face { plusX, minusX, plusY, minusY, plusZ, minusZ };
-//typedef std::map<BlockID, std::map<Face, ChunkMeshInfo>> ChunkMesh;

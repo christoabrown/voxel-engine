@@ -18,6 +18,9 @@
     <Filter Include="Header Files\fastnoise">
       <UniqueIdentifier>{842af164-8aba-4695-ac1a-cbe29a25c443}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\msdfgen">
+      <UniqueIdentifier>{862830ff-1257-4591-9730-ef91dd3481e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="lib\glm\CMakeLists.txt">
@@ -523,6 +526,207 @@
     <ClInclude Include="world_mesher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\arithmetics.hpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\Bitmap.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\Contour.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\edge-coloring.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\edge-segments.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\EdgeColor.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\EdgeHolder.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\equation-solver.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\render-sdf.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\save-bmp.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\shape-description.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\Shape.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\SignedDistance.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\core\Vector2.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\ext\import-font.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\ext\import-svg.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\ext\save-png.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\config\ftconfig.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\config\ftheader.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\config\ftmodule.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\config\ftoption.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\config\ftstdlib.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\freetype.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftbbox.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftbdf.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftbitmap.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftcache.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftchapters.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\fterrdef.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\fterrors.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftgasp.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftglyph.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftgxval.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftgzip.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftimage.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftincrem.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftlcdfil.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftlist.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftlzw.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftmac.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftmm.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftmodapi.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftmoderr.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftotval.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftoutln.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftpfr.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftrender.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftsizes.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftsnames.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftstroke.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftsynth.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftsystem.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\fttrigon.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\fttypes.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftwinfnt.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ftxf86.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\t1tables.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ttnameid.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\tttables.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\tttags.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\freetype\ttunpat.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\ft2build.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\lodepng.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\include\tinyxml2.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="textRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\msdfgen.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\msdfgen\msdfgen-ext.h">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -574,6 +778,66 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="world_mesher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\Bitmap.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\Contour.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\edge-coloring.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\edge-segments.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\EdgeHolder.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\equation-solver.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\msdfgen.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\render-sdf.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\save-bmp.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\shape-description.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\Shape.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\SignedDistance.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\core\Vector2.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\ext\import-font.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\ext\import-svg.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\ext\save-png.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\lib\lodepng.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\msdfgen\lib\tinyxml2.cpp">
+      <Filter>Header Files\msdfgen</Filter>
+    </ClCompile>
+    <ClCompile Include="textRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -930,6 +1194,12 @@
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\sky.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="msdf_default.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="msdf_default.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>
