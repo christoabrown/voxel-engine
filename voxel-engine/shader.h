@@ -48,6 +48,7 @@ GLuint Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
 	if (!success)
 	{
 		glGetShaderInfoLog(vertex, 512, NULL, infoLog);
+		std::cout << vertexPath << std::endl << fragmentPath << std::endl;
 		std::cout << "ERROR::SHADER::VERTEX_COMPILATION_FAILED\n" << infoLog << std::endl;
 	}
 	// Compile fragment shader
@@ -58,6 +59,7 @@ GLuint Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
 	if (!success)
 	{
 		glGetShaderInfoLog(fragment, 512, NULL, infoLog);
+		std::cout << vertexPath << std::endl << fragmentPath << std::endl;
 		std::cout << "ERROR::SHADER::FRAGMENT_COMPILATION_FAILED\n" << infoLog << std::endl;
 	}
 	// Link shaders
@@ -69,6 +71,7 @@ GLuint Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
 	if (!success)
 	{
 		glGetProgramInfoLog(ShaderProgram, 512, NULL, infoLog);
+		std::cout << vertexPath << std::endl << fragmentPath << std::endl;
 		std::cout << "ERROR::SHADER::PROGRAM_LINKING_FAILED\n" << infoLog << std::endl;
 	}
 

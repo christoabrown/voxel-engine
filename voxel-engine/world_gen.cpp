@@ -2,8 +2,10 @@
 #include "util.h"
 #include "world_gen.h"
 #include "world.h"
+#include "chunk.h"
+#include "client/window.h"
 
-WorldGen::WorldGen(WinInfo *winInfo, std::weak_ptr<World> world) : winInfo(winInfo), world(world)
+WorldGen::WorldGen(std::weak_ptr<World> world) : world(world)
 {
 	myNoise = FastNoiseSIMD::NewFastNoiseSIMD();
 	srand((unsigned int)time(NULL));
@@ -31,7 +33,7 @@ WorldGen::~WorldGen()
 
 void WorldGen::beginGeneration()
 {
-	while (!winInfo->shuttingDown)
+	while (!glfwWindowShouldClose(Window::getGLFW()))
 	{
 		{
 			std::shared_ptr<World> wp = world.lock();
@@ -51,19 +53,19 @@ void WorldGen::beginGeneration()
 
 ///Each seed will queue a new generation in the adjacent chunk positions as long as their distance
 ///is less than the generation distance from the generation center
-void WorldGen::seedGenQueue(Point &seed)
+void WorldGen::seedGenQueue(const Point &seed)
 {
 	genQueueIn.enqueue(seed);
 	genCheckCache[seed] = true;
 }
 
-void WorldGen::reseedQueue(Point &center)
+void WorldGen::reseedQueue(const Point &center)
 {
 	std::shared_ptr<World> wp = world.lock();
 
 	for(const Point &p : unitDirection)
 	{
-		Point adj = center + p;
+		Point adj = p + center;
 		Chunk *c = wp->getChunkAt(adj);
 		double dist = adj.distance(wp->generationCenter);
 		if (dist <= WORLD_SIZE_SQ && !genCheckCache[adj])
@@ -89,7 +91,7 @@ void WorldGen::setupAdjacents(Chunk *chunk)
 	chunk->minusZ = minZ;
 }
 
-Chunk* WorldGen::initializeChunk(Point &chunkPos)
+Chunk* WorldGen::initializeChunk(const Point &chunkPos)
 {
 	std::shared_ptr<World> wp = world.lock();
 	Chunk* chunk =  wp->getChunkAt(chunkPos);
@@ -114,7 +116,7 @@ Chunk* WorldGen::initializeChunk(Point &chunkPos)
 	return(chunk);
 }
 
-Chunk* WorldGen::generateChunk(Point &chunkPos, std::shared_ptr<World> wp)
+Chunk* WorldGen::generateChunk(const Point &chunkPos, std::shared_ptr<World> wp)
 {
 	//std::shared_ptr<World> wp = world.lock();
 	Chunk *chunk = wp->getChunkAt(chunkPos);

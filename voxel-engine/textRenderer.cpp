@@ -18,6 +18,8 @@ TextRenderer::TextRenderer(GLuint textShader) : textShader(textShader)
 
 void TextRenderer::genFontTexture(std::string fontDir)
 {
+	std::string fontName = getFileName(fontDir);
+	std::transform(fontName.begin(), fontName.end(), fontName.begin(), ::tolower);
 	FreetypeHandle *ft = initializeFreetype();
 	if (ft)
 	{
@@ -25,7 +27,8 @@ void TextRenderer::genFontTexture(std::string fontDir)
 		if (font)
 		{
 			Shape shape;
-			for (GLubyte c = 0; c < 128; ++c)
+			/// Only need printable characters
+			for (GLubyte c = 32; c < 127; ++c)
 			{
 				double advance = 1.0;
 				if (!loadGlyph(shape, font, c, &advance))
@@ -35,11 +38,10 @@ void TextRenderer::genFontTexture(std::string fontDir)
 				}
 				shape.normalize();
 				///(&shape, max. angle)
-				edgeColoringSimple(shape, 3.0);
+				edgeColoringSimple(shape, 1.0);
 				///(width, height)
 				Bitmap<FloatRGB> msdf(TEXT_DIM, TEXT_DIM);
 				///(range, scale, translation)
-				
 				generateMSDF(msdf, shape, 4.0, TEXT_SCALE, Vector2(4.0, 8.0));
 				
 				GLuint texture;
@@ -68,7 +70,6 @@ void TextRenderer::genFontTexture(std::string fontDir)
 					glm::ivec2((int)(left), (int)(top - bottom)),
 					(GLuint)advance
 				};
-				std::string fontName = getFileName(fontDir);
 				fontTextures[fontName].insert(std::pair<GLchar, Character>(c, character));
 			}
 			destroyFont(font);
@@ -84,6 +85,7 @@ void TextRenderer::genFontTexture(std::string fontDir)
 void TextRenderer::renderText(std::string fontDir, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color)
 {
 	std::string fontName = getFileName(fontDir);
+	std::transform(fontName.begin(), fontName.end(), fontName.begin(), ::tolower);
 	if (fontTextures.count(fontName) == 0)
 		genFontTexture(fontDir);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

@@ -2,8 +2,9 @@
 #include "world_gen.h"
 #include "world.h"
 #include "camera.h"
+#include "client/window.h"
 
-World::World(WinInfo *winInfo) : winInfo(winInfo), genMutex()
+World::World() : genMutex()
 {
 	worldThread = std::thread(&World::tickWorld, this);
 }
@@ -22,7 +23,7 @@ World::~World()
 
 void World::tickWorld()
 {
-	while (!winInfo->shuttingDown)
+	while (!glfwWindowShouldClose(Window::getGLFW()))
 	{
 		checkReCenter();
 		std::this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -83,7 +84,7 @@ void World::addToMeshQueue(Chunk* chunk)
 	worldMesher->meshQueue.enqueue(chunk);
 }
 
-Point World::toWorldPos(Point &chunkPos, Point &blockPos)
+Point World::toWorldPos(const Point &chunkPos, const Point &blockPos)
 {
 	int	x = chunkPos.x*CHUNK_SIZE + blockPos.x;
 	int y = chunkPos.y*CHUNK_SIZE + blockPos.y;
@@ -130,7 +131,7 @@ BYTE World::blockAt(Chunk *chunk, int x, int y, int z)
 	return(block);
 }
 
-Chunk* World::getChunkAt(Point &chunkPos)
+Chunk* World::getChunkAt(const Point &chunkPos)
 {
 	return(&world[chunkPos]);
 }

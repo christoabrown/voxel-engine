@@ -4,6 +4,7 @@
 #include "chunk.h"
 
 Camera camera;
+unsigned long long prevFrameCount = 0;
 
 glm::mat4 GetViewMatrix()
 {

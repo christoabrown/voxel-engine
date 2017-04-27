@@ -6,7 +6,7 @@
 #include "world.h"
 #include "block.h"
 
-#include "lib\fastnoise\FastNoiseSIMD.h"
+#include "lib/fastnoise/FastNoiseSIMD.h"
 void Chunk::mesh()
 {
 	if (airBlocks == CHUNK_EXPANSE || data == nullptr) return; //nothing to mesh

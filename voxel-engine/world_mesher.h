@@ -12,13 +12,12 @@ private:
 	void meshDispatcher();
 
 	std::thread masterMesh;
-	WinInfo *winInfo;
 	std::weak_ptr<World> world;
 	Chunk* workerChunks[WORKER_COUNT];
 	std::thread workerThreads[WORKER_COUNT];
 	
 public:
-	WorldMesher(WinInfo* winInfo, std::weak_ptr<World> world);
+	WorldMesher(std::weak_ptr<World> world);
 	~WorldMesher();
 	void pauseWorkers(std::unique_lock<std::mutex> *lock);
 	void resumeWorkers(std::unique_lock<std::mutex> *lock);
@@ -26,5 +25,5 @@ public:
 
 	SafeQueue<Chunk*> meshQueue;
 	mutable std::mutex meshMutex;
-	std::atomic<bool> pausing = false;
+	bool pausing = false;
 };

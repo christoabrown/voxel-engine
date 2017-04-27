@@ -1,13 +1,13 @@
 #pragma once
 #include "stdafx.h"
-#include "lib\msdfgen\msdfgen.h"
-#include "lib\msdfgen\msdfgen-ext.h"
+#include "lib/msdfgen/msdfgen.h"
+#include "lib/msdfgen/msdfgen-ext.h"
 
 using namespace msdfgen;
 class TextRenderer
 {
 private:
-	const GLfloat TEXT_SCALE = 1.5;
+	const GLfloat TEXT_SCALE = 2.0;
 	const int TEXT_DIM = 32 * TEXT_SCALE;
 	GLuint textShader;
 	GLuint VAO, VBO;

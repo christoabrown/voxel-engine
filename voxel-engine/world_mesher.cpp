@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "world_mesher.h"
 #include "world.h"
+#include "client/window.h"
 
-WorldMesher::WorldMesher(WinInfo* winInfo, std::weak_ptr<World> world)
-	: winInfo(winInfo), world(world), meshMutex()
+WorldMesher::WorldMesher(std::weak_ptr<World> world) : world(world), meshMutex()
 {
 	for (int i = 0; i < WORKER_COUNT; ++i)
 		workerChunks[i] = nullptr;
@@ -55,7 +55,7 @@ void WorldMesher::meshDispatcher()
 		workerThreads[i] = std::thread(&WorldMesher::meshingProcess, this, i);
 
 	std::unique_lock<std::mutex> lock(meshMutex);
-	while (!winInfo->shuttingDown)
+	while (!glfwWindowShouldClose(Window::getGLFW()))
 	{
 		
 		if (!meshQueue.empty() && !pausing) 
@@ -92,7 +92,7 @@ void WorldMesher::meshDispatcher()
 ///Meshing process handled in its own thread
 void WorldMesher::meshingProcess(int threadID)
 {
-	while (!winInfo->shuttingDown) 
+	while (!glfwWindowShouldClose(Window::getGLFW())) 
 	{
 		if (workerChunks[threadID] != nullptr)
 		{

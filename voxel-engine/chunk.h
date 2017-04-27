@@ -9,7 +9,7 @@ class Chunk {
 private:
 	void meshCube(ChunkMesh &mesh, BlockID blockID, int &x, int &y, int &z);
 	void getAOQuad(Face face, GLubyte *corners, int x, int y, int z);
-	GLubyte Chunk::getAOValue(bool side1, bool side2, bool corner);
+	GLubyte getAOValue(bool side1, bool side2, bool corner);
 public:
 	Chunk(void) : data(nullptr), meshed(false), airBlocks(airBlocks), generated(false) {};
 	Chunk(Point chunkPos, BYTE *data, int airBlocks) : chunkPos(chunkPos), data(data), airBlocks(airBlocks), meshed(false) {};

@@ -28,32 +28,32 @@ public:
 		magnitude = magnitude > 0 ? magnitude : 1;
 		return Point(this->x / magnitude, this->y / magnitude, this->z / magnitude);
 	}
-	inline Point operator+(const Point &p)
+	inline Point operator+(const Point &p) const
 	{
 		Point point = Point(this->x + p.x, this->y + p.y, this->z + p.z);
 		return(point);
 	}
-	inline Point operator-(const Point &p)
+	inline Point operator-(const Point &p) const
 	{
 		Point point = Point(this->x - p.x, this->y - p.y, this->z - p.z);
 		return(point);
 	}
-	inline Point operator*(const Point &p)
+	inline Point operator*(const Point &p) const
 	{
 		Point point = Point(this->x * p.x, this->y * p.y, this->z * p.z);
 		return(point);
 	}
-	inline Point operator*(const int &p)
+	inline Point operator*(const int &p) const
 	{
 		Point point = Point(this->x * p, this->y * p, this->z * p);
 		return(point);
 	}
-	inline Point operator/(const Point &p)
+	inline Point operator/(const Point &p) const
 	{
 		Point point = Point(this->x / p.x, this->y / p.y, this->z / p.z);
 		return(point);
 	}
-	inline bool operator==(const Point &p)
+	inline bool operator==(const Point &p) const
 	{
 		return(this->x == p.x && this->y == p.y && this->z == p.z);
 	}

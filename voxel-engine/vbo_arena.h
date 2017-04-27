@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "stdafx.h"
 #include "util.h"
 
@@ -27,4 +27,4 @@ public:
 	//void freeRegion(ChunkMeshInfo &meshInfo);
 	size_t getSize();
 	void drawInstances();
-};
+};*/

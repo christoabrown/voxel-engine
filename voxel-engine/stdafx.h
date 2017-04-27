@@ -4,17 +4,14 @@
 //
 
 #pragma once
-
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #define _ITERATOR_DEBUG_LEVEL 0  
-// Windows Header Files:
-#include <windows.h>
-
+#define BYTE unsigned char
+#include "lib/glad/include/glad/glad.h"
+#include <GLFW/glfw3.h>
 // C RunTime Header Files
 #include <stdlib.h>
 #include <malloc.h>
 #include <memory.h>
-#include <tchar.h>
 #include <ctime>
 #include <math.h>
 #include <vector>
@@ -29,11 +26,6 @@
 #include <atomic>
 #include <iostream>
 
-#include <GL/glew.h>
-#include <GL/wglew.h>
-#pragma comment(lib, "glew32.lib")
-//#include <ft2build.h>
-
-#include "lib\glm\glm.hpp"
-#include "lib\glm\gtc\matrix_transform.hpp"
-#include "lib\glm\gtc\type_ptr.hpp"
+#include "lib/glm/glm.hpp"
+#include "lib/glm/gtc/matrix_transform.hpp"
+#include "lib/glm/gtc/type_ptr.hpp"

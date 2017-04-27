@@ -3,22 +3,22 @@
 #include "shader.h"
 #include "camera.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "lib\stb_image.h"
-#include "input.h"
+#include "lib/stb_image.h"
 #include "safe_queue.h"
-#include "engine_win32.h"
 #include "world.h"
 #include "block.h"
 #include "vbo_arena.h"
 #include "chunk_vao_manager.h"
 #include "textRenderer.h"
+#include "client/window.h"
+#include "client/input.h"
 
 #include <chrono>
 #include <stdio.h>
 
 typedef std::chrono::high_resolution_clock Clock;
 
-HGLRC HRC;
+//HGLRC HRC;
 
 SafeQueue<std::shared_ptr<ChunkMesh>> chunkMeshQueue;
 SafeQueue<std::shared_ptr<ChunkMesh>> chunkUnmeshQueue;
@@ -31,7 +31,7 @@ unsigned long long int frameCount = 0;
 double fpsInc = 0;
 double frameRate = 0;
 
-bool CreateGLContext(WinInfo *winInfo) 
+/*bool CreateGLContext() 
 {
 	///Create temporary window to load extensions
 	HWND tempWnd = CreateWindowW(winInfo->className, L"Voxel-Engine-Init", WS_OVERLAPPEDWINDOW,
@@ -108,7 +108,7 @@ bool CreateGLContext(WinInfo *winInfo)
 		wglMakeCurrent(winInfo->hdc, HRC);
 
 	return true;
-}
+}*/
 
 GLuint loadTexture(std::string file)
 {
@@ -132,10 +132,9 @@ GLuint loadTexture(std::string file)
 void setData()
 {
 	glGenVertexArrays(1, &skyVAO);
-	
-	textures[0] = loadTexture("dirt.png");
-	textures[1] = loadTexture("grass.png");
-	textures[2] = loadTexture("stone.png");
+	textures[0] = loadTexture("resource/textures/dirt.bmp");
+	textures[1] = loadTexture("resource/textures/grass.bmp");
+	textures[2] = loadTexture("resource/textures/stone.bmp");
 	glBindTexture(GL_TEXTURE_2D, textures[1]);
 	chunkVaoManager = ChunkVaoManager();
 }
@@ -169,12 +168,11 @@ void removeChunkMeshes()
 	}
 }
 
-void drawScene(WinInfo *winInfo)
+void drawScene()
 {
 	auto currentFrame = Clock::now();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
-
 	if(!chunkMeshQueue.empty() )
 		addInstances();
 	if (!chunkUnmeshQueue.empty())
@@ -186,8 +184,8 @@ void drawScene(WinInfo *winInfo)
 	/// Sky shader stuff
 	glUseProgram(skyProgram);
 	glUniform3fv(1, 1, glm::value_ptr(getForward()));
-	glUniform1f(2, winInfo->screenHeight);
-	glUniform1f(3, winInfo->screenWidth);
+	glUniform1f(2, Window::getHeight());
+	glUniform1f(3, Window::getWidth());
 	glUniform1f(4, getFov());
 	glBindVertexArray(skyVAO);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -200,7 +198,7 @@ void drawScene(WinInfo *winInfo)
 	
 	glm::mat4 model;
 	glm::mat4 view = GetViewMatrix();
-	glm::mat4 projection = GetProjectionMatrix((GLfloat)winInfo->screenWidth, (GLfloat)winInfo->screenHeight);
+	glm::mat4 projection = GetProjectionMatrix((GLfloat)Window::getWidth(), (GLfloat)Window::getHeight());
 	glUniformMatrix4fv(MODEL_LOC, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(VIEW_LOC, 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(PROJECTION_LOC, 1, GL_FALSE, glm::value_ptr(projection));
@@ -220,7 +218,18 @@ void renderFPS(TextRenderer &textRender, int x, int y)
 		frameRate = fpsInc;
 		fpsInc = 0;
 	}
-	textRender.renderText("C:/Windows/Fonts/LiberationMono-Regular.ttf",std::to_string((int)frameRate) + " fps", x, y, 0.35, glm::vec3(1, 1, 1));
+	std::string font = "resource/fonts/SourceCodePro-Regular.ttf";
+	//std::string font = "resource/fonts/secrcode.ttf";
+	std::string testSymbols = "!\"#$%&''()*+,-./:;<=>?@]^_`{|}~\\";
+	std::string testCapitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	std::string testLowers = "abcdefghijklmnopqrstuvwxyz 1234567890";
+	textRender.renderText(font, std::to_string((int)frameRate) + " fps", x, y, 0.40, glm::vec3(1, 1, 1));
+	//textRender.renderText(font,"", x, y-30, 0.5, glm::vec3(1, 1, 1));
+	//textRender.renderText(font,"", x, y-40, 0.5, glm::vec3(1, 1, 1));
+	textRender.renderText(font, testLowers, x, y-200, 2.5, glm::vec3(1, 1, 1));
+	textRender.renderText(font, testCapitals, x, y-300, 2.5, glm::vec3(1, 1, 1));	
+	textRender.renderText(font, testSymbols, x, y-400, 2.5, glm::vec3(1, 1, 1));	
+	//textRender.renderText("resource/fonts/monoMMM_5.ttf",")     \\", x, y-150, 1, glm::vec3(1, 1, 1));
 }
 
 void APIENTRY openglCallbackFunction(GLenum source,
@@ -230,10 +239,6 @@ void APIENTRY openglCallbackFunction(GLenum source,
 	GLsizei length,
 	const GLchar* message,
 	const void* userParam) {
-	AllocConsole();
-	freopen("CONIN$", "r", stdin);
-	freopen("CONOUT$", "w", stdout);
-	freopen("CONOUT$", "w", stderr);
 	if (type == GL_DEBUG_TYPE_ERROR)
 	{
 		///TODO: make this write to a file
@@ -241,60 +246,58 @@ void APIENTRY openglCallbackFunction(GLenum source,
 	}
 }
 
-void closeGL()
+/*void closeGL()
 {
 	glDeleteProgram(shaderProgram);
 	wglMakeCurrent(NULL, NULL);
 	wglDeleteContext(HRC);
-}
+}*/
 
-void setupGL(WinInfo *winInfo)
+void setupGL()
 {
-	CreateGLContext(winInfo);
-	glClearColor(211 / 255.0f, 224 / 255.0f, 232 / 255.0f, 1.0f);
+	Window::initGL();
+	//CreateGLContext(winInfo);
+	
 	shaderProgram = Shader("shaders/default.vert", "shaders/default.frag");
 	skyProgram = Shader("shaders/sky.vert", "shaders/sky.frag");
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_MULTISAMPLE);
 	
-	glDepthFunc(GL_LEQUAL);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_DEBUG_OUTPUT);
-	//glDebugMessageCallback(openglCallbackFunction, nullptr);
-
-	glCullFace(GL_BACK);
-	wglSwapIntervalEXT(0);
+	
+	glEnable(GL_DEBUG_OUTPUT);
+	glDebugMessageCallback(openglCallbackFunction, nullptr);
+	//wglSwapIntervalEXT(0);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	setData();
-
 	///Begin world
-	std::shared_ptr<World> world = std::make_shared<World>(winInfo);
-	std::shared_ptr<WorldGen> worldGen = std::make_shared<WorldGen>(winInfo, world);
-	std::shared_ptr<WorldMesher> worldMesher = std::make_shared<WorldMesher>(winInfo, world);
+	std::shared_ptr<World> world = std::make_shared<World>();
+	std::shared_ptr<WorldGen> worldGen = std::make_shared<WorldGen>(world);
+	std::shared_ptr<WorldMesher> worldMesher = std::make_shared<WorldMesher>(world);
 	world->worldGen = worldGen;
 	world->worldMesher = worldMesher;
-	///]
-	GLuint textShader = Shader("msdf_default.vert", "msdf_default.frag");
+	///
+	GLuint textShader = Shader("shaders/msdf_default.vert", "shaders/msdf_default.frag");
 	TextRenderer textRender = TextRenderer(textShader);
-	
 	chunkVaoManager.initVaoPool();
-	while (!winInfo->shuttingDown)
+	while (!glfwWindowShouldClose(Window::getGLFW()))
 	{
-		HandleInput(winInfo);
-		if (winInfo->resized) 
+		///TODO: REDO INPUT
+		//HandleInput(winInfo);
+		Input::process();
+		///TODO: REDO RESIZE
+		if (Window::getResized()) 
 		{ 
-			glViewport(0, 0, winInfo->screenWidth, winInfo->screenHeight); winInfo->resized = false; 
-			glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(winInfo->screenWidth), 0.0f, static_cast<GLfloat>(winInfo->screenHeight));
+			glViewport(0, 0, Window::getWidth(), Window::getHeight());
+			glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(Window::getWidth()), 0.0f, static_cast<GLfloat>(Window::getHeight()));
 			glUseProgram(textShader);
 			glUniformMatrix4fv(glGetUniformLocation(textShader, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+			Window::setResized(false); 
 		}
-		drawScene(winInfo);
-		renderFPS(textRender, 2, winInfo->screenHeight - 20);
-		SwapBuffers(winInfo->hdc);
+		drawScene();
+		renderFPS(textRender, 2, Window::getHeight() - 20);
+		//SwapBuffers(winInfo->hdc);
+		glfwSwapBuffers(Window::getGLFW());
 		frameCount++;
 	}
-	closeGL();
+	//closeGL();
 }
 
 ///Time between frames in seconds

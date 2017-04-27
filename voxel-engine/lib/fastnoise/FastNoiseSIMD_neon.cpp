@@ -1,4 +1,3 @@
-#include "stdafx.h"
 // FastNoiseSIMD_neon.cpp
 //
 // MIT License

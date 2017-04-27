@@ -1,4 +1,4 @@
-#include "stdafx.h"
+/*#include "stdafx.h"
 #include "vbo_arena.h"
 #include "util.h"
 #include "camera.h"
@@ -111,7 +111,7 @@ void VboArena::resizeArena(size_t newCapacity)
 	}
 	capacity = newCapacity;
 }
-/*
+
 void VboArena::addRegion(ChunkMeshInfo &meshInfo)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, vboID);
@@ -165,7 +165,7 @@ void VboArena::freeRegion(ChunkMeshInfo &meshData)
 		regions.erase(blockI);
 		size -= block->size;
 	}
-}*/
+}
 
 size_t VboArena::getSize()
 {
@@ -179,4 +179,4 @@ void VboArena::drawInstances()
 		if (pointInFrustum(block.second.startData))
 			glDrawArraysInstancedBaseInstance(GL_TRIANGLES, 0, 6, (GLsizei)block.second.size, (GLuint)block.second.startIndex);
 	}
-}
+}*/

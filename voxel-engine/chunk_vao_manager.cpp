@@ -29,16 +29,16 @@ void ChunkVaoManager::initVaoPool()
 		glBindVertexArray(vaos[i]);
 		glBindBuffer(GL_ARRAY_BUFFER, vbos[i]);
 		// Position attribute;
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>offsetof(Vertex, x));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, x)));
 		glEnableVertexAttribArray(0);
 		// Color attribute
-		glVertexAttribPointer(1, 3, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>offsetof(Vertex, r));
+		glVertexAttribPointer(1, 3, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, r)));
 		glEnableVertexAttribArray(1);
 		//texcoord attribute
-		glVertexAttribPointer(2, 2, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>offsetof(Vertex, u));
+		glVertexAttribPointer(2, 2, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, u)));
 		glEnableVertexAttribArray(2);
 		//normal attribute
-		glVertexAttribPointer(3, 3, GL_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>offsetof(Vertex, normX));
+		glVertexAttribPointer(3, 3, GL_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, normX)));
 		glEnableVertexAttribArray(3);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -65,16 +65,16 @@ ChunkVao ChunkVaoManager::getChunkVao()
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		// Position attribute;
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>offsetof(Vertex, x));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, x)));
 		glEnableVertexAttribArray(0);
 		// Color attribute
-		glVertexAttribPointer(1, 3, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>offsetof(Vertex, r));
+		glVertexAttribPointer(1, 3, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, r)));
 		glEnableVertexAttribArray(1);
 		//texcoord attribute
-		glVertexAttribPointer(2, 2, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>offsetof(Vertex, u));
+		glVertexAttribPointer(2, 2, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, u)));
 		glEnableVertexAttribArray(2);
 		//normal attribute
-		glVertexAttribPointer(3, 3, GL_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>offsetof(Vertex, normX));
+		glVertexAttribPointer(3, 3, GL_BYTE, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, normX)));
 		glEnableVertexAttribArray(3);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
