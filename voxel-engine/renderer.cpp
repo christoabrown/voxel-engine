@@ -2,16 +2,14 @@
 #include "renderer.h"
 #include "shader.h"
 #include "camera.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "lib/stb_image.h"
 #include "safe_queue.h"
 #include "world.h"
 #include "block.h"
-#include "vbo_arena.h"
 #include "chunk_vao_manager.h"
-#include "textRenderer.h"
+#include "text_renderer.h"
 #include "client/window.h"
 #include "client/input.h"
+#include "resource/resource_manager.h"
 
 #include <chrono>
 #include <stdio.h>
@@ -110,6 +108,7 @@ double frameRate = 0;
 	return true;
 }*/
 
+/*
 GLuint loadTexture(std::string file)
 {
 	GLuint texture;
@@ -121,21 +120,23 @@ GLuint loadTexture(std::string file)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	int width, height, bpp;
-	unsigned char *image = stbi_load(file.c_str(), &width, &height, &bpp, 3);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	unsigned char *image = stbi_load(file.c_str(), &width, &height, &bpp, 4);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	stbi_image_free(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return(texture);
 }
-
+*/
 void setData()
 {
 	glGenVertexArrays(1, &skyVAO);
-	textures[0] = loadTexture("resource/textures/dirt.bmp");
-	textures[1] = loadTexture("resource/textures/grass.bmp");
-	textures[2] = loadTexture("resource/textures/stone.bmp");
-	glBindTexture(GL_TEXTURE_2D, textures[1]);
+	//textures[0] = loadTexture("resource/textures/dirt.bmp");
+	//textures[1] = loadTexture("resource/textures/grass.bmp");
+	//textures[2] = loadTexture("resource/textures/stone.bmp");
+	//glBindTexture(GL_TEXTURE_2D, textures[1]);
+	TextureOptions options = {GL_REPEAT, GL_REPEAT, GL_NEAREST_MIPMAP_LINEAR, GL_NEAREST};
+	textures[1] = ResourceManager::loadTexture("resource/textures/grass.bmp", options);
 	chunkVaoManager = ChunkVaoManager();
 }
 
@@ -218,18 +219,21 @@ void renderFPS(TextRenderer &textRender, int x, int y)
 		frameRate = fpsInc;
 		fpsInc = 0;
 	}
-	std::string font = "resource/fonts/SourceCodePro-Regular.ttf";
-	//std::string font = "resource/fonts/secrcode.ttf";
+	//std::string font = "resource/fonts/SourceCodePro-ExtraLight.ttf";
+	//std::string font = "resource/fonts/SourceCodePro-Regular.ttf";
+	//std::string font = "resource/fonts/Amiri-Regular.ttf";
+	std::string font = "resource/fonts/PT_Serif-Web-Regular.ttf";
+	//std::string font = "resource/fonts/Lobster-Regular.ttf";
+	//std::string font = "resource/fonts/BungeeInline-Regular.ttf";
 	std::string testSymbols = "!\"#$%&''()*+,-./:;<=>?@]^_`{|}~\\";
 	std::string testCapitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	std::string testLowers = "abcdefghijklmnopqrstuvwxyz 1234567890";
-	textRender.renderText(font, std::to_string((int)frameRate) + " fps", x, y, 0.40, glm::vec3(1, 1, 1));
-	//textRender.renderText(font,"", x, y-30, 0.5, glm::vec3(1, 1, 1));
-	//textRender.renderText(font,"", x, y-40, 0.5, glm::vec3(1, 1, 1));
-	textRender.renderText(font, testLowers, x, y-200, 2.5, glm::vec3(1, 1, 1));
-	textRender.renderText(font, testCapitals, x, y-300, 2.5, glm::vec3(1, 1, 1));	
-	textRender.renderText(font, testSymbols, x, y-400, 2.5, glm::vec3(1, 1, 1));	
-	//textRender.renderText("resource/fonts/monoMMM_5.ttf",")     \\", x, y-150, 1, glm::vec3(1, 1, 1));
+	textRender.renderText(font, std::to_string((int)frameRate) + " fps", x, y, 17, glm::vec3(1, 1, 1));
+	textRender.renderText(font, testLowers, x, y-200, 100, glm::vec3(0, 0, 0), BORDER, glm::vec3(1, 1, 1));
+	textRender.renderText(font, testCapitals, x, y-300, 32, glm::vec3(214/255., 87/255., 87/255.), BORDER);	
+	textRender.renderText(font, testSymbols, x, y-400, 64, glm::vec3(1, 1, 1), BORDER_THICK);	
+	textRender.renderText(font, "The quick brown fox jumps over the lazy dog.", x, y-100, 15, glm::vec3(1, 1, 1));	
+	textRender.renderText(font, "The quick brown fox jumps over the lazy dog.", x, y-1000, 500, glm::vec3(67/255., 50/255., 201/255.), BORDER);	
 }
 
 void APIENTRY openglCallbackFunction(GLenum source,

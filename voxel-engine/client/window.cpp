@@ -76,7 +76,7 @@ bool Window::initGL()
 	glDepthFunc(GL_LEQUAL);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glCullFace(GL_BACK);
-    glfwSwapInterval(0);
+    //glfwSwapInterval(0);
     return(true);
 }
 

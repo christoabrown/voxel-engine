@@ -28,18 +28,22 @@ void Input::_process()
 
 void Input::_processKey()
 {
-	if(keys[GLFW_KEY_W])
-		TranslateCamera(FORWARD);
-	if(keys[GLFW_KEY_S])
-		TranslateCamera(BACKWARD);
-	if(keys[GLFW_KEY_A])
-		TranslateCamera(LEFT);
-	if(keys[GLFW_KEY_D])
-		TranslateCamera(RIGHT);
-	if(keys[GLFW_KEY_SPACE])
-		TranslateCamera(UP);
-	if(keys[GLFW_KEY_LEFT_SHIFT])
-		TranslateCamera(DOWN);
+	/// Movement keys
+	if(captureMouse)
+	{
+		if(keys[GLFW_KEY_W])
+			TranslateCamera(FORWARD);
+		if(keys[GLFW_KEY_S])
+			TranslateCamera(BACKWARD);
+		if(keys[GLFW_KEY_A])
+			TranslateCamera(LEFT);
+		if(keys[GLFW_KEY_D])
+			TranslateCamera(RIGHT);
+		if(keys[GLFW_KEY_SPACE])
+			TranslateCamera(UP);
+		if(keys[GLFW_KEY_LEFT_SHIFT])
+			TranslateCamera(DOWN);
+	}
 	if(keys[GLFW_KEY_ESCAPE] && captureMouse)
 	{
 		captureMouse = false;

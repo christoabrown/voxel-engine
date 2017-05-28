@@ -26,4 +26,6 @@ bool loadGlyph(Shape &output, FontHandle *font, int unicode, double *advance = N
 /// Returns the kerning distance adjustment between two specific glyphs.
 bool getKerning(double &output, FontHandle *font, int unicode1, int unicode2);
 
+bool getGlyphAdvance(FontHandle *font, int unicode, double *advance);
+
 }

@@ -75,7 +75,7 @@ SET (${this_target}_SOURCE_FILES
 	lib/glad/src/glad.c
 	renderer.cpp
 	stdafx.cpp
-	textRenderer.cpp
+	text_renderer.cpp
 	util.cpp
 	vbo_arena.cpp
 	client/window.cpp
@@ -83,6 +83,8 @@ SET (${this_target}_SOURCE_FILES
 	world_gen.cpp
 	world_mesher.cpp
 	client/voxel-engine.cpp
+	resource/resource_manager.cpp
+	lib/jsoncpp/jsoncpp.cpp
     )
 
 ## section: header files
@@ -315,13 +317,16 @@ SET(${this_target}_HEADER_FILES
 	safe_queue.h
 	shader.h
 	stdafx.h
-	textRenderer.h
+	text_renderer.h
 	util.h
 	vbo_arena.h
 	client/window.h
 	world.h
 	world_gen.h
 	world_mesher.h
+	resource/resource_manager.h
+	lib/jsoncpp/json/json.h
+	lib/jsoncpp/json/json-forwards.h
     )
 
 SOURCE_GROUP("shaders" FILES 
@@ -611,6 +616,12 @@ ENDFOREACH()
 ADD_CUSTOM_COMMAND(TARGET voxel-engine PRE_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
 						${CMAKE_SOURCE_DIR}/resource/fonts $<TARGET_FILE_DIR:voxel-engine>/resource/fonts)
+## Create font cache directory
+ADD_CUSTOM_COMMAND(TARGET voxel-engine PRE_BUILD
+					COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:voxel-engine>/resource/fonts/msdf)
+## Create font cache directory
+ADD_CUSTOM_COMMAND(TARGET voxel-engine PRE_BUILD
+					COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:voxel-engine>/resource/fonts/info)
 
 ## section: add dependency
 # dependency determines overall build order.

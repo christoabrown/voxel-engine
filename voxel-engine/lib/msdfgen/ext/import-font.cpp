@@ -31,6 +31,7 @@ class FontHandle {
 	friend bool getFontWhitespaceWidth(double &spaceAdvance, double &tabAdvance, FontHandle *font);
 	friend bool loadGlyph(Shape &output, FontHandle *font, int unicode, double *advance);
 	friend bool getKerning(double &output, FontHandle *font, int unicode1, int unicode2);
+	friend bool getGlyphAdvance(FontHandle *font, int unicode, double *advance);
 
 	FT_Face face;
 
@@ -120,6 +121,17 @@ bool getFontWhitespaceWidth(double &spaceAdvance, double &tabAdvance, FontHandle
 	if (error)
 		return false;
 	tabAdvance = font->face->glyph->advance.x/64.;
+	return true;
+}
+
+bool getGlyphAdvance(FontHandle *font, int unicode, double *advance)
+{
+	if(!font)
+		return false;
+	FT_Error error = FT_Load_Char(font->face, unicode, FT_LOAD_NO_SCALE);
+	if(error)
+		return false;
+	*advance = font->face->glyph->advance.x/64.;
 	return true;
 }
 

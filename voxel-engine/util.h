@@ -47,6 +47,8 @@ struct Plane {
 	GLfloat a, b, c, d;
 };
 
-std::string getFileName(std::string dir);
+std::string getFileName(std::string& dir);
+std::string getFileExt(std::string& dir);
+void lowercase(std::string& str);
 
 enum Face { plusX, minusX, plusY, minusY, plusZ, minusZ };
