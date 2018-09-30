@@ -54,7 +54,7 @@ void Input::_processKey()
 
 void Input::_processMousePos()
 {
-	_updateMousePos();
+	//_updateMousePos();
 	if(deltaX != 0.0f || deltaY != 0.0f)
 	{
 		if(captureMouse)
@@ -88,38 +88,23 @@ void Input::_updateKeys(int key, int action)
 void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {Input::getInstance()._updateKeys(key, action);}
 
-void Input::_updateMousePos()
+void Input::_updateMousePos(double xpos, double ypos)
 {
-	double xpos, ypos;
-	glfwGetCursorPos(Window::getGLFW(), &xpos, &ypos);
 	if(firstMousePos)
 	{
 		lastX = xpos;
 		lastY = ypos;
 		firstMousePos = false;
 	}
-	GLfloat xoffset = xpos - lastX;
-	GLfloat yoffset = lastY - ypos;
-
-	double repositionX, repositionY;
-	if(captureMouse && (xoffset >= 1.0 || xoffset <= -1.0 || yoffset >= 1.0 || yoffset <= -1.0))
-	{
-		repositionX = Window::getWidth()/2;
-		repositionY = Window::getHeight()/2;
-		glfwSetCursorPos(Window::getGLFW(), repositionX, repositionY);
-	}
-	else
-	{
-		repositionX = xpos;
-		repositionY = ypos;
-	}
-	lastX = repositionX;
-	lastY = repositionY;
-	deltaX += xoffset * sensitivity;
-	deltaY += yoffset * sensitivity;
+	deltaX += (xpos - lastX) * sensitivity;
+	deltaY += (lastY - ypos) * sensitivity;
+	lastX = xpos;
+	lastY = ypos;
 }
 void Input::mousePosCallback(GLFWwindow* window, double xpos, double ypos)
-{/*Input::getInstance()._updateMousePos(xpos, ypos);*/}
+{
+  Input::getInstance()._updateMousePos(xpos, ypos);
+}
 
 void Input::_updateMouseButton(int button, int action)
 {

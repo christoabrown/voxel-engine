@@ -101,6 +101,7 @@ void TranslateCamera(Camera_Movement direction)
 
 void RotateCamera(GLfloat xoffset, GLfloat yoffset)
 {
+  // std::cout << xoffset << std::endl;
 	camera.yaw += xoffset;
 	camera.pitch += yoffset;
 

@@ -4,7 +4,7 @@
 #include "safe_queue.h"
 
 class World;
-const int WORKER_COUNT = 6;
+const int WORKER_COUNT = 12;
 class WorldMesher
 {
 private:
@@ -19,8 +19,8 @@ private:
 public:
 	WorldMesher(std::weak_ptr<World> world);
 	~WorldMesher();
-	void pauseWorkers(std::unique_lock<std::mutex> *lock);
-	void resumeWorkers(std::unique_lock<std::mutex> *lock);
+	void pauseWorkers();
+	void resumeWorkers();
 	void clearQueues();
 
 	SafeQueue<Chunk*> meshQueue;

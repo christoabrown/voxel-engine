@@ -23,22 +23,24 @@ SET (this_target voxel-engine)
 PROJECT(${this_target})
 FIND_PACKAGE(OpenGL REQUIRED)
 FIND_PACKAGE(PkgConfig REQUIRED)
-FIND_PACKAGE(Freetype REQUIRED)
+#FIND_PACKAGE(Freetype REQUIRED)
 
 # PkgConfig searches
-PKG_SEARCH_MODULE(GLFW REQUIRED glfw3)
+#PKG_SEARCH_MODULE(GLFW REQUIRED glfw3)
 
 add_definitions(-DUNICODE -D_UNICODE)
 
 
 ## section: include directory
 INCLUDE_DIRECTORIES(
-  $(ProjectDir)
-	$(ProjectDir)lib/msdfgen/include
+  
+  #$(ProjectDir)
+	lib/msdfgen/include/
 	${OPENGL_INCLUDE_DIRS}
-	${GLFW_INCLUDE_DIRS}
-	${GLEW_INCLUDE_DIRECTORY}
-	${FREETYPE_INCLUDE_DIRS}
+	lib/glfw/include/
+#	${GLEW_INCLUDE_DIRECTORY}
+  lib/glad/include/
+	lib/freetype/include/
   )
 
 ## section: source files
@@ -608,10 +610,10 @@ ADD_CUSTOM_COMMAND(TARGET voxel-engine PRE_BUILD
 FILE(GLOB ResourceTextures ${CMAKE_SOURCE_DIR}/resource/textures/*)
 ADD_CUSTOM_COMMAND(TARGET voxel-engine PRE_BUILD
 					COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:voxel-engine>/resource/textures)
-FOREACH(ResourceTexture ${ResourceTextures})
-ADD_CUSTOM_COMMAND(TARGET voxel-engine PRE_BUILD
-                   COMMAND mogrify -format bmp -path $<TARGET_FILE_DIR:voxel-engine>/resource/textures ${ResourceTexture})
-ENDFOREACH()
+#FOREACH(ResourceTexture ${ResourceTextures})
+#ADD_CUSTOM_COMMAND(TARGET voxel-engine PRE_BUILD
+#                   COMMAND mogrify -format bmp -path $<TARGET_FILE_DIR:voxel-engine>/resource/textures ${ResourceTexture})
+#ENDFOREACH()
 ## Copies fonts
 ADD_CUSTOM_COMMAND(TARGET voxel-engine PRE_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -632,17 +634,7 @@ ADD_CUSTOM_COMMAND(TARGET voxel-engine PRE_BUILD
 ## section: set link libraries
 TARGET_LINK_LIBRARIES( ${this_target}
         ${OPENGL_LIBRARIES}
-		${GLFW_LIBRARIES}
-		${GLEW_LIB}
-		${FREETYPE_LIBRARIES}
-		${CMAKE_DL_LIBS}
-        )
-
-ADD_EXECUTABLE(events-test tests/events.c lib/glad/src/glad.c)
-TARGET_LINK_LIBRARIES( events-test
-        ${OPENGL_LIBRARIES}
-		${GLFW_LIBRARIES}
-		${GLEW_LIB}
-		${FREETYPE_LIBRARIES}
+		$(ProjectDir)lib/glfw/lib/glfw3.lib
+		$(ProjectDir)lib/freetype/win64/freetype.lib
 		${CMAKE_DL_LIBS}
         )

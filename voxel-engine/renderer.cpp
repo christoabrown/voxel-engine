@@ -220,9 +220,9 @@ void renderFPS(TextRenderer &textRender, int x, int y)
 		fpsInc = 0;
 	}
 	//std::string font = "resource/fonts/SourceCodePro-ExtraLight.ttf";
-	//std::string font = "resource/fonts/SourceCodePro-Regular.ttf";
+	std::string font = "resource/fonts/SourceCodePro-Regular.ttf";
 	//std::string font = "resource/fonts/Amiri-Regular.ttf";
-	std::string font = "resource/fonts/PT_Serif-Web-Regular.ttf";
+	//std::string font = "resource/fonts/PT_Serif-Web-Regular.ttf";
 	//std::string font = "resource/fonts/Lobster-Regular.ttf";
 	//std::string font = "resource/fonts/BungeeInline-Regular.ttf";
 	std::string testSymbols = "!\"#$%&''()*+,-./:;<=>?@]^_`{|}~\\";

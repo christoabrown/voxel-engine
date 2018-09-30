@@ -21,6 +21,6 @@ int main()
     {
         glfwPollEvents();
     }
-
+    renderThread.join();
     return(0);
 }

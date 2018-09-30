@@ -5,7 +5,6 @@
 
 #pragma once
 #define _ITERATOR_DEBUG_LEVEL 0  
-#define BYTE unsigned char
 #include "lib/glad/include/glad/glad.h"
 #include <GLFW/glfw3.h>
 // C RunTime Header Files
@@ -29,3 +28,4 @@
 #include "lib/glm/glm.hpp"
 #include "lib/glm/gtc/matrix_transform.hpp"
 #include "lib/glm/gtc/type_ptr.hpp"
+#define BYTE unsigned char

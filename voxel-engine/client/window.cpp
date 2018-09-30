@@ -47,7 +47,7 @@ bool Window::init()
     glfwSetFramebufferSizeCallback(glfwWin, Window::glfwFrameBufferSizeCallback);
     glfwSetKeyCallback(glfwWin, Input::keyCallback);
     //glfwSetInputMode(glfwWin, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    //glfwSetCursorPosCallback(glfwWin, Input::mousePosCallback);
+    glfwSetCursorPosCallback(glfwWin, Input::mousePosCallback);
     glfwSetMouseButtonCallback(glfwWin, Input::mouseButtonCallback);
        
     return(true);
@@ -76,7 +76,7 @@ bool Window::initGL()
 	glDepthFunc(GL_LEQUAL);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glCullFace(GL_BACK);
-    //glfwSwapInterval(0);
+    glfwSwapInterval(0);
     return(true);
 }
 

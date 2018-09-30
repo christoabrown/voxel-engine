@@ -24,6 +24,7 @@ WorldGen::WorldGen(std::weak_ptr<World> world) : world(world)
 
 WorldGen::~WorldGen()
 {
+  std::cout << "end gen" << std::endl;
 	if (generationThread.joinable())
 		generationThread.join();
 
@@ -35,19 +36,18 @@ void WorldGen::beginGeneration()
 {
 	while (!glfwWindowShouldClose(Window::getGLFW()))
 	{
+		if (!genQueueIn.empty())
 		{
 			std::shared_ptr<World> wp = world.lock();
 			std::lock_guard<std::mutex> lock(wp->genMutex);
-			if (!genQueueIn.empty())
-			{
-				Point genItem = genQueueIn.dequeue();
-				Chunk* newChunk = initializeChunk(genItem);
-				if (!newChunk->meshed && newChunk->airBlocks < CHUNK_EXPANSE)
-					wp->addToMeshQueue(newChunk);
+			Point genItem = genQueueIn.dequeue();
+			Chunk* newChunk = initializeChunk(genItem);
+			if (!newChunk->meshed && newChunk->airBlocks < CHUNK_EXPANSE) {
+				wp->addToMeshQueue(newChunk);
 			}
-			else
-				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
+		else
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
 }
 
@@ -177,20 +177,20 @@ Chunk* WorldGen::generateChunk(const Point &chunkPos, std::shared_ptr<World> wp)
 
 float* WorldGen::genHeightMap(int x, int z)
 {
-	float *noise, *noise2;
+	float *noise/*, *noise2*/;
 	myNoise->SetPerturbType(myNoise->GradientFractal);
 	
 	noise = myNoise->GetValueSet(x*CHUNK_SIZE, 0, z*CHUNK_SIZE, CHUNK_SIZE, 1, CHUNK_SIZE, 0.2f);
 	myNoise->SetPerturbType(myNoise->None);
-	noise2 = myNoise->GetValueSet(x*CHUNK_SIZE, 0, z*CHUNK_SIZE, CHUNK_SIZE, 1, CHUNK_SIZE, 0.2f);
+	//noise2 = myNoise->GetValueSet(x*CHUNK_SIZE, 0, z*CHUNK_SIZE, CHUNK_SIZE, 1, CHUNK_SIZE, 0.2f);
 	const int HEIGHT_MAP_SIZE = CHUNK_SIZE*CHUNK_SIZE;
 	float* heightMap = new float[HEIGHT_MAP_SIZE];
 	for (int i = 0; i < HEIGHT_MAP_SIZE; ++i)
 	{
-		heightMap[i] = (noise[i] * noise2[i]) * HEIGHT_SCALE;
+		heightMap[i] = (noise[i] /** noise2[i]*/) * HEIGHT_SCALE;
 	}
 
 	FastNoiseSIMD::FreeNoiseSet(noise);
-	FastNoiseSIMD::FreeNoiseSet(noise2);
+	//FastNoiseSIMD::FreeNoiseSet(noise2);
 	return(heightMap);
 }

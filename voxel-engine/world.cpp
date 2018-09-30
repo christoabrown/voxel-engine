@@ -19,6 +19,7 @@ World::~World()
 		delete[] it->second.data;
 		it = world.erase(it);
 	}
+	worldThread.join();
 }
 
 void World::tickWorld()
@@ -42,41 +43,46 @@ void World::checkReCenter()
 void World::setNewCenter(Point center)
 {	
 	///Lock these threads because we are deleting stuff
-	std::lock_guard<std::mutex> genLock(genMutex);
-	std::unique_lock<std::mutex> meshLock(worldMesher->meshMutex);
-	worldMesher->pauseWorkers(&meshLock);
-	worldGen->genQueueIn.clear();
-	worldMesher->clearQueues();
-	generationCenter = center;
-	std::unordered_map<Point, Chunk, hashFunc, equalsFunc>::iterator it = world.begin();
-	while(it != world.end())
+	//std::lock_guard<std::mutex> genLock(genMutex);
+	//std::unique_lock<std::mutex> meshLock(worldMesher->meshMutex);
 	{
-		Chunk *chunk = &it->second;
-		if (chunk->generated)
+		//std::scoped_lock lock(genMutex, worldMesher->meshMutex);
+		std::lock_guard<std::mutex> genLock(genMutex);
+		std::lock_guard<std::mutex> meshLock(worldMesher->meshMutex);
+		worldMesher->pauseWorkers();
+		worldGen->genQueueIn.clear();
+		worldMesher->clearQueues();
+		generationCenter = center;
+		std::unordered_map<Point, Chunk, hashFunc, equalsFunc>::iterator it = world.begin();
+		while (it != world.end())
 		{
-			double chunkDist = generationCenter.distance(chunk->chunkPos);
-			///If it is outside the render distance then we either delete mesh or both mesh and data
-			if (chunkDist > WORLD_SIZE_SQ)
-			{	
-				if (chunk->meshed)
+			Chunk *chunk = &it->second;
+			if (chunk->generated)
+			{
+				double chunkDist = generationCenter.distance(chunk->chunkPos);
+				///If it is outside the render distance then we either delete mesh or both mesh and data
+				if (chunkDist > WORLD_SIZE_SQ)
 				{
-					removeChunkMeshQueue(chunk->chunkMesh);
-					chunk->chunkMesh = nullptr;
-					chunk->meshed = false;
+					if (chunk->meshed)
+					{
+						removeChunkMeshQueue(chunk->chunkMesh);
+						chunk->chunkMesh = nullptr;
+						chunk->meshed = false;
+					}
+					chunk->generated = false;
+					delete[] chunk->data;
+					chunk->data = nullptr;
 				}
-				chunk->generated = false;
-				delete[] chunk->data;
-				chunk->data = nullptr;	
 			}
+			if (!chunk->generated || chunk->data == nullptr)
+				it = world.erase(it);
+			else
+				++it;
 		}
-		if (!chunk->generated || chunk->data == nullptr)
-			it = world.erase(it);
-		else
-			++it;
+		worldGen->genCheckCache.clear();
+		worldGen->seedGenQueue(generationCenter);
 	}
-	worldGen->genCheckCache.clear();
-	worldGen->seedGenQueue(generationCenter);
-	worldMesher->resumeWorkers(&meshLock);
+	worldMesher->resumeWorkers();
 }
 
 void World::addToMeshQueue(Chunk* chunk)

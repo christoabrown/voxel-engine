@@ -25,21 +25,21 @@ WorldMesher::~WorldMesher()
 		masterMesh.join();
 }
 
-void WorldMesher::pauseWorkers(std::unique_lock<std::mutex> *lock)
+void WorldMesher::pauseWorkers()
 {
 	pausing = true;
-	if (!lock->owns_lock())
-		lock->lock();
+	/*if (!lock->owns_lock())
+		lock->lock();*/
 	for (int i = 0; i < WORKER_COUNT; ++i)
 	{
 		workerChunks[i] = nullptr;
 	}
 }
 
-void WorldMesher::resumeWorkers(std::unique_lock<std::mutex> *lock)
+void WorldMesher::resumeWorkers()
 {
-	if (lock->owns_lock())
-		lock->unlock();
+	/*if (lock->owns_lock())
+		lock->unlock();*/
 	pausing = false;
 }
 

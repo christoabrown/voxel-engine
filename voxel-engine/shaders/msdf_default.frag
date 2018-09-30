@@ -45,4 +45,5 @@ void main()
 	}
 	else finalTextCol = innerCol;
 	color = finalTextCol;
+	
 }

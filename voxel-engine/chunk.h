@@ -32,7 +32,7 @@ const int CHUNK_SIZE_SQ = CHUNK_SIZE*CHUNK_SIZE;
 const int WORLD_EXPANSE = WORLD_SIZE*WORLD_SIZE*WORLD_SIZE;
 const int CHUNK_EXPANSE = CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE;
 //NOTE: Height scale changes how tall mountains are
-const int HEIGHT_SCALE = 128;
+const int HEIGHT_SCALE = 256;
 //NOTE: sea level is where things start to get cut off from height map
 const int SEA_LEVEL = 0;
 //NOTE: higher air threshold = more empty space

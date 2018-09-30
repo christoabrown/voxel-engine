@@ -22,7 +22,7 @@ private:
 	bool captureMouse = false;
 	double lastX, lastY;
 	GLfloat deltaX, deltaY;
-	GLfloat sensitivity = 0.20f;
+	GLfloat sensitivity = 0.50f;
 
 	/// Act on inputs
 	void _process();
@@ -31,7 +31,7 @@ private:
 	void _processMouseButton();
 	/// update variables
 	void _updateKeys(int key, int action);
-	void _updateMousePos();
+	void _updateMousePos(double xpos, double ypos);
 	void _updateMouseButton(int button, int action);
 public:
 	/// Main loop entry point
